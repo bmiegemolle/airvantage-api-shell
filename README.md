@@ -88,7 +88,7 @@ Find entities
 
 The _avop find_ command will enable you to search some entities of the AirVantage M2M Cloud portal:
 
-> avop find -field _value_ [/entities] [--uid-only]
+> avop find _-field_ _value_ [/entities] [--uid-only]
 
 * _-field value_ enables you to specify a search criteria.
 * _/entities_ is optional. If not specified, then _systems_ will be searched.

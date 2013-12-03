@@ -155,8 +155,9 @@ avop ls /users --uid-only  \
     | avop cat /users  \
     | sed '/^$/d'  \
     | while read line;  \
-      do csv_line="`echo $line | jq '.uid, .email, .name, .phoneNumber, .company.uid, .company.name' | tr '\n' ';'`";  \
-      echo "${csv_line%?}";  \
+      do  \
+          csv_line="`echo $line | jq '.uid, .email, .name, .phoneNumber, .company.uid, .company.name' | tr '\n' ';'`";  \
+          echo "${csv_line%?}";  \
       done >> out.csv
 
 # Have a look at the wonderful generated CSV file

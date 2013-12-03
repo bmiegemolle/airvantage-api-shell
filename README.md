@@ -140,6 +140,31 @@ avop ls /users --uid-only | avop cat /users
 
 The two last commands show how to use the _find_ (or _ls_) and _cat_ commands in pipeline. The standard output produced by the _find_ (or _ls_) commands can be directly used by the _cat_ command as long you have used the _--uid-only_ argument to produced only plain text UIDs.
 
+Users CSV export example
+------------------------
+
+By mixing **avop** commands with standard **Shell** ones, you have a powerful way to manipulate AirVantage M2M Cloud API.
+
+For example, if you want to export a list of AirVantage users in a CSV file, the following script will do the trick:
+``` sh
+# CSV header
+echo "UID;EMAIL;NAME;PHONE_NUMBER;COMPANY_UID;COMPANY_NAME" > out.csv
+
+# CSV content
+avop ls /users --uid-only  \
+    | avop cat /users  \
+    | sed '/^$/d'  \
+    | while read line;  \
+      do csv_line="`echo $line | jq '.uid, .email, .name, .phoneNumber, .company.uid, .company.name' | tr '\n' ';'`";  \
+      echo "${csv_line%?}";  \
+      done >> out.csv
+
+# Have a look at the wonderful generated CSV file
+cat out.csv
+```
+
+And that's all! Simple as that! With **avop** script, you can do whatever you want. The only limit is your imagination (and the known limitations listed below  ;) ).
+
 Known limitations
 -----------------
 

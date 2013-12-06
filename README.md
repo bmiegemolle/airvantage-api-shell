@@ -1,5 +1,5 @@
-avop.sh
-=======
+AirVantage API access from Shell command-line
+=============================================
 
 The avop.sh project aims to provides a Shell script that enables to interact with AirVantage M2M Cloud API in command-line.
 

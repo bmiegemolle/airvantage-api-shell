@@ -4,8 +4,8 @@
 export CLIENT_ID=890a211eefbc4f1391980984135ebb86
 export CLIENT_SECRET=e36691e8a022440fa44b6eecd007a06d
 
-export ACCESS_TOKEN_FILE=/tmp/avop-access-token
-export API_URL_FILE=/tmp/avop-api-url
+export ACCESS_TOKEN_FILE=/tmp/av-access-token
+export API_URL_FILE=/tmp/av-api-url
 
 
 
@@ -52,20 +52,20 @@ _entities () {
 
 _help () {
     echo
-    echo "Usage: avop command [options]"
+    echo "Usage: av command [options]"
     echo
     echo "Available commands:"
-    echo "    * avop ssh host                  --> Retrieve an access token, and store it in a /tmp file used by further avop commands"
-    echo "    * avop ls [-uid]                 --> List all systems"
-    echo "    * avop find -field value [-uid]  --> Find systems"
-    echo "    * avop cat [uid]                 --> Get system details"
+    echo "    * av ssh host                  --> Retrieve an access token, and store it in a /tmp file used by further av commands"
+    echo "    * av ls [-uid]                 --> List all systems"
+    echo "    * av find -field value [-uid]  --> Find systems"
+    echo "    * av cat [uid]                 --> Get system details"
     echo
 }
 
 
 
 ########################################################################################################################
-# Retrieve an access token, and store it in a /tmp file used by further avop commands
+# Retrieve an access token, and store it in a /tmp file used by further av commands
 #     --> $2: host --> the host name, such as qa-trunk.airvantage.net
 ########################################################################################################################
 
@@ -91,7 +91,7 @@ _ssh () {
     echo "https://$HOST/api/v1" > $API_URL_FILE
 
     echo
-    echo "Access granted! You can now use avop commands!"
+    echo "Access granted! You can now use av commands!"
     echo "    --> API URL: `cat $API_URL_FILE`"
     echo "    --> Access token: `cat $ACCESS_TOKEN_FILE`"
     echo

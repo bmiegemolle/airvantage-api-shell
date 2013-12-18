@@ -237,10 +237,15 @@ _vi () {
     then
         curl -s "$BASE_URL/$entities?uid=$ID&access_token=$ACCESS_TOKEN" | jq '.items[]' > $VI_FILE
     fi
-    
+ 
+    lastModificationTimeBeforeVi=`stat $VI_FILE -c "%Y"`
     vi $VI_FILE
+    lastModificationTimeAfterVi=`stat $VI_FILE -c "%Y"`
 
-    curl -s "$BASE_URL/$entities/$ID?access_token=$ACCESS_TOKEN" -H 'Content-Type: application/json' -X PUT -d "`cat $VI_FILE`" | jq -c .
+    if test $lastModificationTimeAfterVi -gt $lastModificationTimeBeforeVi
+    then
+        curl -s "$BASE_URL/$entities/$ID?access_token=$ACCESS_TOKEN" -H 'Content-Type: application/json' -X PUT -d "`cat $VI_FILE`" | jq -c .
+    fi
 }
 
 

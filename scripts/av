@@ -6,6 +6,7 @@ export CLIENT_SECRET=e36691e8a022440fa44b6eecd007a06d
 
 export ACCESS_TOKEN_FILE=/tmp/av-access-token
 export API_URL_FILE=/tmp/av-api-url
+export VI_FILE=/tmp/av-vi
 
 
 
@@ -164,7 +165,7 @@ _find () {
 
 
 ########################################################################################################################
-# Get entity details (default entity is system)
+# Get entity details
 #     --> $2: the entities/uid to display. Possibilities are:
 #                  /entities
 #                  /entities/uid
@@ -178,8 +179,6 @@ _cat () {
     ACCESS_TOKEN=`cat $ACCESS_TOKEN_FILE`
     
     _entities $*
-
-    echo $2 | awk '{print $3}'  
 
     if test -n "`echo $2 | awk -F/ '{print $3}'`"
     then
@@ -205,6 +204,47 @@ _cat () {
                 curl -s "$BASE_URL/$entities?uid=$ID&access_token=$ACCESS_TOKEN" | jq -c '.items[]'
             fi
         done
+    fi
+}
+
+
+
+########################################################################################################################
+# Edit entity details
+#     --> $2: the entities/uid to edit. Possibilities are:
+#                  /entities/uid
+#                  uid
+#              if entities is not specified, then systems are queries by default
+########################################################################################################################
+
+_vi () {
+    BASE_URL=`cat $API_URL_FILE`
+    ACCESS_TOKEN=`cat $ACCESS_TOKEN_FILE`
+    
+    _entities $*
+
+    if test -n "`echo $2 | awk -F/ '{print $3}'`"
+    then
+        ID=`echo $2 | awk -F/ '{print $3}'`
+    elif test -z "`echo $2 | awk -F / '{print $2}'`"
+    then
+        ID=$2
+    else
+        ID=""
+    fi
+
+    if test -n "$ID"
+    then
+        curl -s "$BASE_URL/$entities?uid=$ID&access_token=$ACCESS_TOKEN" | jq '.items[]' > $VI_FILE
+    fi
+ 
+    lastModificationTimeBeforeVi=`stat $VI_FILE -c "%Y"`
+    vi $VI_FILE
+    lastModificationTimeAfterVi=`stat $VI_FILE -c "%Y"`
+
+    if test $lastModificationTimeAfterVi -gt $lastModificationTimeBeforeVi
+    then
+        curl -s "$BASE_URL/$entities/$ID?access_token=$ACCESS_TOKEN" -H 'Content-Type: application/json' -X PUT -d "`cat $VI_FILE`" | jq -c .
     fi
 }
 
@@ -238,6 +278,9 @@ case "$1" in
         ;;
     "cat")
         _cat $*
+        ;;
+    "vi")
+        _vi $*
         ;;
     *)
         _help

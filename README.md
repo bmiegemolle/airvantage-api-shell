@@ -1,7 +1,7 @@
 AirVantage API access from Shell command-line
 =============================================
 
-The **airvantage-api-shell** project aims to provides a Shell script that enables to interact with AirVantage M2M Cloud API in command-line.
+The **airvantage-api-shell** project aims to provides a light and flexible Shell script that enables to interact with AirVantage M2M Cloud API in command-line.
 
 Prerequisites
 -------------
@@ -139,6 +139,29 @@ av ls /users --uid-only | av cat /users
 ```
 
 The two last commands show how to use the _find_ (or _ls_) and _cat_ commands in pipeline. The standard output produced by the _find_ (or _ls_) commands can be directly used by the _cat_ command as long you have used the _--uid-only_ argument to produced only plain text UIDs.
+
+Edit an entity
+--------------
+
+You can edit entities with the `av vi` command. In a nutshell, this command retrieves the entity details and opens the `vi` editor to edit them. When exiting the editor, the data will automatically be sent to the server in order to update the entity.
+
+> av vi _arg_
+
+_arg_ can be:
+* /_entities_/_uid_: edit the details of the specified entity
+* /_uid_: idem, but assumes that the entity is a system
+
+This command outpus the entity details _after_ the update, or the error message if something bad happened on server-side.
+
+Examples:
+``` sh
+# Edits the system with UID "c996897fa60d4882a720292171debb5a"
+av vi c996897fa60d4882a720292171debb5a
+av vi /systems/c996897fa60d4882a720292171debb5a
+
+# Edits the gateway with UID "590fea92135a46e9acc7b59952843ec9"
+av vi /gateways/590fea92135a46e9acc7b59952843ec9
+```
 
 Users CSV export example
 ------------------------

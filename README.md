@@ -182,7 +182,7 @@ Examples:
 av rm c996897fa60d4882a720292171debb5a
 av rm /systems/c996897fa60d4882a720292171debb5a
 
-# Removes the gateway with UID "590fea92135a46e9acc7b59952843ec9"
+# Deletes the gateway with UID "590fea92135a46e9acc7b59952843ec9"
 av rm /gateways/590fea92135a46e9acc7b59952843ec9
 ```
 

@@ -160,7 +160,7 @@ This command outputs the entity details _after_ the creation, or the error messa
 
 Examples:
 ``` sh
-# Creates the a system from scratch
+# Creates a system from scratch
 av touch
 av touch /systems
 

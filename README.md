@@ -154,7 +154,7 @@ There are two creation modes:
 > av touch [/_entities_] [--template-uid _uid_]
 
 * _/entities_ is optional. If not specified, then _systems_ will be created.
-* --template-uid _uid_ enables you to specify an existing entity to use as a template.
+* _--template-uid uid_ enables you to specify an existing entity to use as a template.
 
 This command outputs the entity details _after_ the creation, or the error message if something bad happened on server-side.
 

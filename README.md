@@ -151,7 +151,7 @@ _arg_ can be:
 * /_entities_/_uid_: edit the details of the specified entity
 * /_uid_: idem, but assumes that the entity is a system
 
-This command outpus the entity details _after_ the update, or the error message if something bad happened on server-side.
+This command outputs the entity details _after_ the update, or the error message if something bad happened on server-side.
 
 Examples:
 ``` sh
@@ -161,6 +161,29 @@ av vi /systems/c996897fa60d4882a720292171debb5a
 
 # Edits the gateway with UID "590fea92135a46e9acc7b59952843ec9"
 av vi /gateways/590fea92135a46e9acc7b59952843ec9
+```
+
+Delete an entity
+--------------
+
+It possible to delete entities from the AirVantage M2M Cloud portal by using the `av rm` command.
+
+> av rm _arg_
+
+_arg_ can be:
+* /_entities_/_uid_: delete the specified entity
+* /_uid_: idem, but assumes that the entity is a system
+
+**Warning:** No confirmation will be prompted before actually deleting the entity. You should be sure of what you're doing when invoking this command!
+
+Examples:
+``` sh
+# Deletes the system with UID "c996897fa60d4882a720292171debb5a"
+av rm c996897fa60d4882a720292171debb5a
+av rm /systems/c996897fa60d4882a720292171debb5a
+
+# Removes the gateway with UID "590fea92135a46e9acc7b59952843ec9"
+av rm /gateways/590fea92135a46e9acc7b59952843ec9
 ```
 
 Users CSV export example

@@ -56,10 +56,13 @@ _help () {
     echo "Usage: av command [options]"
     echo
     echo "Available commands:"
-    echo "    * av ssh host                  --> Retrieve an access token, and store it in a /tmp file used by further av commands"
-    echo "    * av ls [-uid]                 --> List all systems"
-    echo "    * av find -field value [-uid]  --> Find systems"
-    echo "    * av cat [uid]                 --> Get system details"
+    echo "    * av ssh"
+    echo "    * av ls"
+    echo "    * av find"
+    echo "    * av cat"
+    echo "    * av vi"
+    echo
+    echo "For a complete documentation of these commands, please refer to: https://github.com/bmiegemolle/airvantage-api-shell"
     echo
 }
 

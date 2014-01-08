@@ -65,7 +65,7 @@ List entities
 
 The `av ls` command will enable you to list some entities of the AirVantage M2M Cloud portal:
 
-> av ls [/entities] [--uid-only]
+> av ls [/_entities_] [--uid-only]
 
 * _/entities_ is optional. If not specified, then _systems_ will be listed.
 * _--uid-only_ argument enables to return only a list of entities uid as plain text, instead of entities as JSON objects.
@@ -88,7 +88,7 @@ Find entities
 
 The `av find` command will enable you to search some entities of the AirVantage M2M Cloud portal:
 
-> av find _-field_ _value_ [/entities] [--uid-only]
+> av find _-field_ _value_ [/_entities_] [--uid-only]
 
 * _-field value_ enables you to specify a search criteria.
 * _/entities_ is optional. If not specified, then _systems_ will be searched.
@@ -151,7 +151,7 @@ There are two creation modes:
 1. **Creation from scratch:** The `vi` editor is opened with an empty JSON content. You'll need to provide all necessary information to create the entity.
 2. **Creation from template:** You can use an existing entity as a template, by specifying its UID in the command line arguments. In this case, a first request is done to the server in order to get the entity details. The `vi` editor is then opened with those details. All you have to do is editing the information to match your new entity values.
 
-> av touch [/entities] [--template-uid _uid_]
+> av touch [/_entities_] [--template-uid _uid_]
 
 * _/entities_ is optional. If not specified, then _systems_ will be created.
 * --template-uid _uid_ enables you to specify an existing entity to use as a template.

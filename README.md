@@ -65,7 +65,7 @@ List entities
 
 The `av ls` command will enable you to list some entities of the AirVantage M2M Cloud portal:
 
-> av ls [/entities] [--uid-only]
+> av ls [/_entities_] [--uid-only]
 
 * _/entities_ is optional. If not specified, then _systems_ will be listed.
 * _--uid-only_ argument enables to return only a list of entities uid as plain text, instead of entities as JSON objects.
@@ -88,7 +88,7 @@ Find entities
 
 The `av find` command will enable you to search some entities of the AirVantage M2M Cloud portal:
 
-> av find _-field_ _value_ [/entities] [--uid-only]
+> av find _-field_ _value_ [/_entities_] [--uid-only]
 
 * _-field value_ enables you to specify a search criteria.
 * _/entities_ is optional. If not specified, then _systems_ will be searched.
@@ -140,6 +140,37 @@ av ls /users --uid-only | av cat /users
 
 The two last commands show how to use the _find_ (or _ls_) and _cat_ commands in pipeline. The standard output produced by the _find_ (or _ls_) commands can be directly used by the _cat_ command as long you have used the _--uid-only_ argument to produced only plain text UIDs.
 
+
+Create an entity
+--------------
+
+You can create an new entity with the `av touch` command. This command opens the `vi` editor to enter the different fields of the entity to create. When exiting the editor, those information are sent to the server in order to create the entity.
+
+There are two creation modes:
+
+1. **Creation from scratch:** The `vi` editor is opened with an empty JSON content. You'll need to provide all necessary information to create the entity.
+2. **Creation from template:** You can use an existing entity as a template, by specifying its UID in the command line arguments. In this case, a first request is done to the server in order to get the entity details. The `vi` editor is then opened with those details. All you have to do is editing the information to match your new entity values.
+
+> av touch [/_entities_] [--template-uid _uid_]
+
+* _/entities_ is optional. If not specified, then _systems_ will be created.
+* _--template-uid uid_ enables you to specify an existing entity to use as a template.
+
+This command outputs the entity details _after_ the creation, or the error message if something bad happened on server-side.
+
+Examples:
+``` sh
+# Creates a system from scratch
+av touch
+av touch /systems
+
+# Creates a gateway from scratch
+av touch /gateways
+
+# Creates a gateway using the gateway with UID "590fea92135a46e9acc7b59952843ec9" as a template
+av touch /gateways --template-uid 590fea92135a46e9acc7b59952843ec9
+```
+
 Edit an entity
 --------------
 
@@ -182,7 +213,7 @@ Examples:
 av rm c996897fa60d4882a720292171debb5a
 av rm /systems/c996897fa60d4882a720292171debb5a
 
-# Removes the gateway with UID "590fea92135a46e9acc7b59952843ec9"
+# Deletes the gateway with UID "590fea92135a46e9acc7b59952843ec9"
 av rm /gateways/590fea92135a46e9acc7b59952843ec9
 ```
 
@@ -225,4 +256,4 @@ What's coming next?
 Two main topics should be addressed soon:
 
 1. Remove the limitations described above.
-2. Implement commands to create systems, operations, etc.
+2. Propose alternatives to the use of `vi` to create or edit an entity.

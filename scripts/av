@@ -11,7 +11,7 @@ export VI_FILE=/tmp/av-vi
 
 
 ########################################################################################################################
-# Indicates whether given args contain "-uid" or not.
+# Indicates whether given args contain "--uid-only" or not.
 #     --> Out: $args_uid_only
 ########################################################################################################################
 
@@ -48,6 +48,28 @@ _entities () {
 
 
 ########################################################################################################################
+# Returns the template uid arg if present
+#     --> Out: $template_uid
+########################################################################################################################
+
+_template_uid () {
+    arg_found=0
+    for i in $*
+    do
+        if test $arg_found -eq 1
+        then
+            template_uid=$i
+            arg_found=0
+        elif test "$i" = "--template-uid"
+        then
+            arg_found=1
+        fi
+    done
+}
+
+
+
+########################################################################################################################
 # Shows help
 ########################################################################################################################
 
@@ -60,6 +82,7 @@ _help () {
     echo "    * av ls"
     echo "    * av find"
     echo "    * av cat"
+    echo "    * av touch"
     echo "    * av vi"
     echo "    * av rm"
     echo
@@ -214,6 +237,38 @@ _cat () {
 
 
 ########################################################################################################################
+# Create an entity
+#     --> $*: /entities --> the type of entity to create (/systems by default)
+#             --template-uid uid --> the uid of the entity to use as a template
+########################################################################################################################
+
+_touch () {
+    BASE_URL=`cat $API_URL_FILE`
+    ACCESS_TOKEN=`cat $ACCESS_TOKEN_FILE`
+    
+    _entities $*
+    _template_uid $*
+
+    if test -n "$template_uid"
+    then
+        curl -s "$BASE_URL/$entities?uid=$template_uid&access_token=$ACCESS_TOKEN" | jq '.items[]' > $VI_FILE
+    else
+        echo "{ }" > $VI_FILE
+    fi
+ 
+    lastModificationTimeBeforeVi=`stat $VI_FILE -c "%Y"`
+    vi $VI_FILE
+    lastModificationTimeAfterVi=`stat $VI_FILE -c "%Y"`
+
+    if test $lastModificationTimeAfterVi -gt $lastModificationTimeBeforeVi
+    then
+        curl -s "$BASE_URL/$entities?access_token=$ACCESS_TOKEN" -H 'Content-Type: application/json' -d "`cat $VI_FILE`" | jq -c .
+    fi
+}
+
+
+
+########################################################################################################################
 # Edit entity details
 #     --> $2: the entities/uid to edit. Possibilities are:
 #                  /entities/uid
@@ -314,6 +369,9 @@ case "$1" in
         ;;
     "cat")
         _cat $*
+        ;;
+    "touch")
+        _touch $*
         ;;
     "vi")
         _vi $*

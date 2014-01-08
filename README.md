@@ -225,4 +225,4 @@ What's coming next?
 Two main topics should be addressed soon:
 
 1. Remove the limitations described above.
-2. Implement commands to create or remove systems, to create operations, etc.
+2. Implement commands to create systems, operations, etc.

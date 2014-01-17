@@ -48,10 +48,13 @@ av ssh na.airvantage.net
 
 You'll be asked for your username and password, and you'll get an access token to AirVantage M2M Cloud API. This token will be stored in your file system (in the _/tmp/av-access-token_ file), and it will be automatically used by any further `av` commands.
 
-Supported hosts are:
+Supported production hosts are:
 
 * na.airvantage.net
 * eu.airvantage.net
+
+The following integration and validation environments can also be accessed:
+
 * edge.airvantage.net
 * dev-airlink.airvantage.net
 * qa-branch.airvantage.net

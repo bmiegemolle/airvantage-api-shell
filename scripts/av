@@ -1,12 +1,59 @@
 #! /bin/bash
 
 
-export CLIENT_ID=890a211eefbc4f1391980984135ebb86
-export CLIENT_SECRET=e36691e8a022440fa44b6eecd007a06d
-
 export ACCESS_TOKEN_FILE=/tmp/av-access-token
 export API_URL_FILE=/tmp/av-api-url
 export VI_FILE=/tmp/av-vi
+
+
+
+########################################################################################################################
+# Initializes client id and client secret according to the given host name
+#     --> $2: host --> the host name, such as qa-trunk.airvantage.net
+########################################################################################################################
+
+_api_client () {
+    HOST=$2
+
+    if test "$HOST" = "qa-trunk.airvantage.net"
+    then
+        clientId=890a211eefbc4f1391980984135ebb86
+        clientSecret=e36691e8a022440fa44b6eecd007a06d
+    elif test "$HOST" = "qa-branch.airvantage.net"
+    then
+        clientId=4e41c4ad716446a380a917700cbaa845
+        clientSecret=671b5962e30041c69c0a3cc532e343a2
+    elif test "$HOST" = "dev-airlink.airvantage.net"
+    then
+        clientId=a14979078246475fafc203fe56f6f3b4
+        clientSecret=5ede19e06b8f40858e20baed02627cd3
+    elif test "$HOST" = "edge.airvantage.net"
+    then
+        clientId=086ad0284d18465386420271b089de89
+        clientSecret=0ed2ae955ba546c6806d79db63b6e779
+    elif test "$HOST" = "eu.airvantage.net"
+    then
+        clientId=8439f64e239e4911ac2edee0f475d525
+        clientSecret=ad4e7fce7fc7488da903206cda0415ce
+    elif test "$HOST" = "na.airvantage.net"
+    then
+        clientId=0716ea3d63d34e49b69cabbd85db48ef
+        clientSecret=c7621399f4e34003aa3ed30453524e65
+    else
+        echo
+        echo "Unknown hostname."
+        echo
+        echo "Possible hostnames are:"
+        echo "    --> na.airvantage.net"
+        echo "    --> eu.airvantage.net"
+        echo "    --> edge.airvantage.net"
+        echo "    --> dev-airlink.airvantage.net"
+        echo "    --> qa-branch.airvantage.net"
+        echo "    --> qa-trunk.airvantage.net"
+        echo
+        exit 1
+    fi
+}
 
 
 
@@ -99,6 +146,8 @@ _help () {
 
 _ssh () {
     HOST=$2
+
+    _api_client $*
     
     echo -n "username: "
     read USERNAME
@@ -106,7 +155,7 @@ _ssh () {
     read -s PASSWORD
     echo
 
-    curl -s "https://$HOST/api/oauth/token?grant_type=password&username=$USERNAME&password=$PASSWORD&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" | jq '.access_token' | awk -F\" '{print $2}' > $ACCESS_TOKEN_FILE
+    curl -s "https://$HOST/api/oauth/token?grant_type=password&username=$USERNAME&password=$PASSWORD&client_id=$clientId&client_secret=$clientSecret" | jq '.access_token' | awk -F\" '{print $2}' > $ACCESS_TOKEN_FILE
     
     if test -z `cat $ACCESS_TOKEN_FILE`
     then

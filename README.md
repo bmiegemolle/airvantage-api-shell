@@ -48,6 +48,18 @@ av ssh na.airvantage.net
 
 You'll be asked for your username and password, and you'll get an access token to AirVantage M2M Cloud API. This token will be stored in your file system (in the _/tmp/av-access-token_ file), and it will be automatically used by any further `av` commands.
 
+Supported production hosts are:
+
+* na.airvantage.net
+* eu.airvantage.net
+
+The following integration and validation environments can also be accessed:
+
+* edge.airvantage.net
+* dev-airlink.airvantage.net
+* qa-branch.airvantage.net
+* qa-trunk.airvantage.net
+
 Who am I?
 ---------
 
@@ -246,9 +258,8 @@ And that's all! Simple as that! With the `av` script, you can do whatever you wa
 Known limitations
 -----------------
 
-1. OAuth API client informations (client ID and secret key) are both hard-coded in the `av` script. This API client only exists on _qa-trunk_ platform. Those informations should actually be asked by the _av ssh_ command.
-2. All `av` commands only work with API that return a list of items identified by a UID (unique identifier). It does not work with other entities, such as labels.
-3. Pagination is not handled yet by the `av` script. Default pagination will thus be used when accessing to any API (i.e. no offset, and up to 100 items returned).
+1. All `av` commands only work with API that return a list of items identified by a UID (unique identifier). It does not work with other entities, such as labels.
+2. Pagination is not handled yet by the `av` script. Default pagination will thus be used when accessing to any API (i.e. no offset, and up to 100 items returned).
 
 What's coming next?
 -------------------

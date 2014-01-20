@@ -114,6 +114,9 @@ av find -name test
 # Find systems with a commStatus equals to "ERROR", and display them as a list of plain text UIDs
 av find -commStatus ERROR --uid-only
 
+# Find messages received by the system with UID "c996897fa60d4882a720292171debb5a"
+av find /systems/c996897fa60d4882a720292171debb5a/messages
+
 # Find users whose name contains "admin", and display them as a list of JSON objects
 av find -name admin /users
 
@@ -145,6 +148,9 @@ av cat /operations/650db7d9ab4547d4b2e7f8e8cb70f7e2
 
 # Displays the details of all systems with a commStatus equals to "ERROR"
 av find -commStatus ERROR --uid-only | av cat
+
+# Displays the details of all messages received by the system with UID "c996897fa60d4882a720292171debb5a"
+av find /systems/c996897fa60d4882a720292171debb5a/messages --uid-only | av cat
 
 # Displays the details of all users
 av ls /users --uid-only | av cat /users
